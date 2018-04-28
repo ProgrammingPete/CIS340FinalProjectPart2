@@ -13,6 +13,7 @@
 int main(int argc, char *argv[]){
 	//check arg length using passed variable named argc. The tokenization
 	// of these arguments should be stored in the 2-d array
+	// checking changes
 	int opt;
 	bool longver = false;
 	bool sortbytimemod = false;
@@ -30,7 +31,20 @@ int main(int argc, char *argv[]){
 		}
 
 	}
-	int opt1 = optind;
-	printf("%d", opt1);
-
+	
+	//int opt1 = optind;
+	//printf("%d", opt1);
+	
+	int i;
+	char str[100];
+	
+	if((strcmp(argv[1], "ls")) == 0){
+		while(argv[i][0] != '/0'){
+			if(argv[i][0] ==  134){
+				strcpy(argv[i], str);
+			}
+		}
+	}else if((strcmp(argv[1], "ls")) == 0){
+		printf("hello");
+	}
 }
