@@ -23,23 +23,29 @@ int main(int argc, char *argv[]){
 	//check arg length using passed variable named argc. The tokenization
 	// of these arguments should be stored in the 2-d array
 	// checking changes
-	int opt;
-	bool longver = false;
+	int opt, index;
+	int longver = 0;
 	bool sortbytimemod = false;
 	bool sortBySize = false;
-	while((opt = getopt (argc,argv,"lts")) != -1){
+	
+	while((opt = getopt(argc,argv,"lts")) != -1){
 		switch(opt){
-		case 'l': longver = true;
+		case 'l': 
+		longver = 1;
 		break;
 		case 't': sortbytimemod = true;
 		break;
 		case 's': sortBySize = true;
 		break;
 		default:
-			printf("Usage %: enter cp or ls first \n", argv[0]);
+			printf("Usage %d enter cp or ls first \n", argv[0]);
+			return 1;
 		}
 
 	}
+	
+	for (index = optind; index < argc; index++)
+    printf ("Non-option argument %s\n", argv[index]);
 	
 	//int opt1 = optind;
 	//printf("%d", opt1);
@@ -99,8 +105,8 @@ void show_file_info( char *filename, struct stat *info_p )
         char    modestr[11];
 
  mode_to_letters( info_p->st_mode, modestr );
-
-	printf( "%s"    , modestr );
+	//these correspond to colums
+	printf( "%s"    , modestr );		
 	printf( "%4d "  , (int) info_p->st_nlink);
 //	printf( "%-8s " , uid_to_name(info_p->st_uid) );
 //	printf( "%-8s " , gid_to_name(info_p->st_gid) );
@@ -131,38 +137,3 @@ void mode_to_letters( int mode, char str[] )
     if ( mode & S_IXOTH ) str[9] = 'x';
 }
 
-#include	<pwd.h>
-
-char *uid_to_name( uid_t uid )
-/*
- *	returns pointer to username associated with uid, uses getpw()
- */
-{
-	struct	passwd *getpwuid(), *pw_ptr;
-	static  char numstr[10];
-
-	if ( ( pw_ptr = getpwuid( uid ) ) == NULL ){
-		sprintf(numstr,"%d", uid);
-		return numstr;
-	}
-	else
-		return pw_ptr->pw_name ;
-}
-
-#include	<grp.h>
-
-char *gid_to_name( gid_t gid )
-/*
- *	returns pointer to group number gid. used getgrgid(3)
- */
-{
-	struct group *getgrgid(), *grp_ptr;
-	static  char numstr[10];
-
-	if ( ( grp_ptr = getgrgid(gid) ) == NULL ){
-		sprintf(numstr,"%d", gid);
-		return numstr;
-	}
-	else
-		return grp_ptr->gr_name;
-}
